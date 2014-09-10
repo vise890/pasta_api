@@ -14,6 +14,6 @@ $ go run pasta_api.go
 
 # Live reload (4 dev)
 ```bash
-$ go get go get github.com/pilu/fresh
+$ go get github.com/pilu/fresh
 $ fresh
 ```
