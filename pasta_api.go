@@ -13,8 +13,8 @@ const (
 
 // Pasta contains information about a kind of pasta
 type Pasta struct {
-	Name        string `bson:"name,omitempty" json:"name"`
-	CookingTime int    `bson:"cookingTime,omitempty" json:"cookingTime" binding:"required"`
+	Name        string `json:"name" bson:"name"`
+	CookingTime int    `json:"cookingTime" bson:"cookingTime,omitempty"`
 }
 
 func main() {
