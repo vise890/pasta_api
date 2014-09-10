@@ -1,4 +1,4 @@
-A silly example for a rest API
+A silly example for a rest API written in golang with gin (web framework) and mgo (MongoDb driver).
 
 # Prerequisites
 - go
