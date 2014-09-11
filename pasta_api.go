@@ -16,9 +16,9 @@ func main() {
 	})
 	// !!!! remember r.Run(":8080")
 
-	// =============================
-	// # 2 = Deserializing post data
-	// =============================
+	// ==============================
+	// # 2 = Deserializing POST Pasta
+	// ==============================
 	type PastaPing struct {
 		Name        string `json:"name"`
 		CookingTime int    `json:"cookingTime"`
@@ -102,7 +102,7 @@ func main() {
 	})
 
 	// ===========================
-	// # 6 = retrieving all pastas
+	// # 6 = retrieving all Pastas
 	// ===========================
 	r.GET("/pasta", func(c *gin.Context) {
 		dbSession := mgoSession.Copy()
