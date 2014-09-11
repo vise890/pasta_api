@@ -5,30 +5,26 @@ import (
 	"labix.org/v2/mgo"
 )
 
-const (
-	databaseAddress string = "localhost"
-	databaseName    string = "test"
-	collectionName  string = "pastas"
-)
-
-// Pasta contains information about a kind of pasta
-type Pasta struct {
-	Name        string `json:"name" bson:"name"`
-	CookingTime int    `json:"cookingTime" bson:"cookingTime,omitempty"`
-}
-
 func main() {
 
+	// ===============================
 	// # 1 = Routing and handler funcs
+	// ===============================
 	r := gin.Default()
 	r.GET("/hello", func(c *gin.Context) {
 		c.String(200, "hello world")
 	})
 	// !!!! remember r.Run(":8080")
 
+	// =============================
 	// # 2 = Deserializing post data
+	// =============================
+	type PastaPing struct {
+		Name        string `json:"name"`
+		CookingTime int    `json:"cookingTime"`
+	}
 	r.POST("/pasta-pong", func(c *gin.Context) {
-		postedPasta := Pasta{}
+		postedPasta := PastaPing{}
 		c.Bind(&postedPasta)
 		c.JSON(200, postedPasta)
 	})
@@ -39,7 +35,18 @@ func main() {
 	//    "cookingTime": 8
 	// }
 
+	// ========================
 	// # 3 = Persisting a Pasta
+	// ========================
+	const (
+		databaseAddress string = "localhost"
+		databaseName    string = "test"
+		collectionName  string = "pastas"
+	)
+	type Pasta struct {
+		Name        string `json:"name" bson:"name"`
+		CookingTime int    `json:"cookingTime" bson:"cookingTime,omitempty"`
+	}
 	mgoSession, _ := mgo.Dial(databaseAddress)
 	defer mgoSession.Close()
 	r.POST("/pasta", func(c *gin.Context) {
@@ -62,14 +69,19 @@ func main() {
 	// $ mongo
 	// > show collections
 	// > db.pastas.find()
+	// > db.pastas.drop()
 
+	// ====================
 	// # 4 = getting Params
+	// ====================
 	r.GET("/hello/:name", func(c *gin.Context) {
 		name := c.Params.ByName("name")
 		c.String(200, "hi there, "+name+"!")
 	})
 
+	// ===============================
 	// # 5 = retriving a Pasta by name
+	// ===============================
 	r.GET("/pasta/:name", func(c *gin.Context) {
 		name := c.Params.ByName("name")
 
@@ -89,7 +101,9 @@ func main() {
 		}
 	})
 
+	// ===========================
 	// # 6 = retrieving all pastas
+	// ===========================
 	r.GET("/pasta", func(c *gin.Context) {
 		dbSession := mgoSession.Copy()
 		defer dbSession.Close()
@@ -105,6 +119,8 @@ func main() {
 		}
 	})
 
+	// ===========
+	// running the server....
 	r.Run(":8080")
 
 }
