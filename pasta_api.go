@@ -6,11 +6,12 @@ import (
 )
 
 func main() {
+	// create a router, with some middleware (e.g. Logging)
+	r := gin.Default()
 
 	// ===============================
 	// # 1 = Routing and handler funcs
 	// ===============================
-	r := gin.Default()
 	r.GET("/hello", func(c *gin.Context) {
 		c.String(200, "hello world")
 	})
@@ -38,15 +39,15 @@ func main() {
 	// ========================
 	// # 3 = Persisting a Pasta
 	// ========================
+	type Pasta struct {
+		Name        string `json:"name" bson:"name"`
+		CookingTime int    `json:"cookingTime" bson:"cookingTime,omitempty"`
+	}
 	const (
 		databaseAddress string = "localhost"
 		databaseName    string = "test"
 		collectionName  string = "pastas"
 	)
-	type Pasta struct {
-		Name        string `json:"name" bson:"name"`
-		CookingTime int    `json:"cookingTime" bson:"cookingTime,omitempty"`
-	}
 	mgoSession, _ := mgo.Dial(databaseAddress)
 	defer mgoSession.Close()
 	r.POST("/pasta", func(c *gin.Context) {
