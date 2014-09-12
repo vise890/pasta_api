@@ -1,3 +1,6 @@
+// SINCE THE GOAL OF THIS DEMO IS TO SHOWCASE THE LANG, I WON'T BE DOING TDD
+//   - if this was a real app, I wouldn't do this
+//   - if you're interested we can have another session on it
 package main
 
 import (
