@@ -6,6 +6,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"labix.org/v2/mgo"
+	"strconv"
 )
 
 func main() {
@@ -27,13 +28,14 @@ func main() {
 		Name        string `json:"name"`
 		CookingTime int    `json:"cookingTime"`
 	}
-	r.POST("/pasta-pong", func(c *gin.Context) {
+	r.POST("/butta-la-pasta", func(c *gin.Context) {
 		postedPasta := PastaPing{}
 		c.Bind(&postedPasta)
-		c.JSON(200, postedPasta)
+		res := postedPasta.Name + " tra " + strconv.Itoa(postedPasta.CookingTime) + " minuti!?! Mamma che fame!"
+		c.String(200, res)
 	})
 	// SHOW:
-	// POST /pasta-pong
+	// POST /pasta-mamma
 	// {
 	//    "name": "fusilli",
 	//    "cookingTime": 8
